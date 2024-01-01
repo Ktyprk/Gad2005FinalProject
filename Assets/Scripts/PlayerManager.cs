@@ -58,17 +58,24 @@ public class PlayerManager : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag("Damage"))
-        {
-            TakeDamage(damageAmount);
-        }
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
         if(other.CompareTag("Car"))
         {
-            UIManager.NeedGear = true;
+            if(gearCount < 20) 
+            {
+               UIManager.NeedGear = true;
+            }
+            if(gearCount >= 20)
+            {
+                UIManager.NeedGear = false;
+                UIManager.canFixing = true;
+                UIManager.FixingUI.SetActive(true);
+            }
+            
         }
     }
 
@@ -76,7 +83,14 @@ public class PlayerManager : MonoBehaviour
     {
         if (other.CompareTag("Car"))
         {
-            UIManager.NeedGear = false;
+            
+                UIManager.NeedGear = false;
+            UIManager.FixingUI.SetActive(false);
+        }
+
+        if (other.CompareTag("Damage"))
+        {
+            TakeDamage(damageAmount);
         }
     }
 }

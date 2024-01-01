@@ -5,13 +5,13 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public GameObject NeedGearUI;
+    public GameObject NeedGearUI, FixingUI;
 
     public TextMeshProUGUI needGearCount;
 
     public PlayerManager _playerManager;
 
-    public bool NeedGear = false;
+    public bool NeedGear = false, canFixing = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
 
         needGearCount.text = remainingGearCount.ToString();
 
-        if(NeedGear)
+        if(NeedGear && !canFixing)
         {
             NeedGearUI.SetActive(true);
         }else

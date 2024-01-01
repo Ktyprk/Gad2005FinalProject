@@ -7,6 +7,8 @@ public class Fixing : MonoBehaviour
 {
     public Canvas ProjectBarCanvas;
     public Image progressBar;
+    public UIManager UIManager;
+    public PlayerManager playerManager;
 
     public float fillSpeed = 0.5f;
     public float fillAmount = 0f;
@@ -20,8 +22,9 @@ public class Fixing : MonoBehaviour
             FillProgressBar();
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && isPlayerInside)
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerInside && UIManager.canFixing)
         {
+
             ProjectBarCanvas.gameObject.SetActive(true);
             StartFilling();
             
@@ -31,7 +34,7 @@ public class Fixing : MonoBehaviour
             CompleteTask();
         }
 
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.E) )
         {
             if (fillAmount >= 1f)
             {
@@ -41,6 +44,8 @@ public class Fixing : MonoBehaviour
             {
                 ResetProgressBar();
             }
+
+
         }
     }
 
@@ -70,6 +75,8 @@ public class Fixing : MonoBehaviour
         fillAmount = 1f;
         progressBar.fillAmount = 1f;
         
+        playerManager.gearCount -= 20;
+
     }
 
     private bool isPlayerInside = false;
@@ -79,6 +86,7 @@ public class Fixing : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = true;
+            progressBar.gameObject.SetActive(true);
         }
     }
 
@@ -87,6 +95,7 @@ public class Fixing : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = false;
+            progressBar.gameObject.SetActive(false);
         }
     }
 }
