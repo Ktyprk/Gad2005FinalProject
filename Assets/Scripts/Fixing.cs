@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements.Experimental;
 
 public class Fixing : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Fixing : MonoBehaviour
     public Image progressBar;
     public UIManager UIManager;
     public PlayerManager playerManager;
+    public GameObject car;
 
     public float fillSpeed = 0.5f;
     public float fillAmount = 0f;
@@ -76,6 +78,8 @@ public class Fixing : MonoBehaviour
         progressBar.fillAmount = 1f;
         
         playerManager.gearCount -= 20;
+        Destroy(this.gameObject);
+        car.SetActive(true);
 
     }
 

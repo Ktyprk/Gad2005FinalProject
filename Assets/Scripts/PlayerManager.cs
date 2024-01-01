@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
 
         // Saðlýk çubuðunu baþlangýçta güncelle
         UpdateHealthUI();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void UpdateHealthUI()

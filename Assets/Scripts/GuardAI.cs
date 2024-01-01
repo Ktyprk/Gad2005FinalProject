@@ -51,8 +51,8 @@ public class GuardAI : MonoBehaviour
     void StartPath()
     {
         speed = currentspeed;
-        anim.SetBool("isWalking", true);
-        anim.SetBool("isLooking", false);
+        this.anim.SetBool("isWalking", true);
+        this.anim.SetBool("isLooking", false);
         Vector3[] waypoints = new Vector3[pathHolder.childCount];
         for (int i = 0; i < waypoints.Length; i++)
         {
@@ -125,8 +125,8 @@ public class GuardAI : MonoBehaviour
         isChasingPlayer = true;
        OnGuardHasSpottedPlayer?.Invoke(); // Event'i tetikle
 
-        anim.SetBool("isWalking", true);
-        anim.SetBool("isLooking", false);
+        this.anim.SetBool("isWalking", true);
+        this.anim.SetBool("isLooking", false);
     }
 
 
@@ -138,9 +138,9 @@ public class GuardAI : MonoBehaviour
         if ( distanceToPlayer > 1.81f)
         {
             speed = currentspeed;
-            anim.SetBool("isWalking", true);
-            anim.SetBool("isLooking", false);
-            anim.SetBool("isAttack", false);
+            this.anim.SetBool("isWalking", true);
+            this.anim.SetBool("isLooking", false);
+            this.anim.SetBool("isAttack", false);
             transform.position += directionToPlayer.normalized * speed * Time.deltaTime;
             transform.LookAt(player.position);
            // Debug.Log("yakalandýn");
@@ -148,16 +148,16 @@ public class GuardAI : MonoBehaviour
         {
             //Debug.Log("aaa");
             speed = 0;
-            anim.SetBool("isWalking", false);
-            anim.SetBool("isLooking", false);
-            anim.SetBool("isAttack", true);
+            this.anim.SetBool("isWalking", false);
+            this.anim.SetBool("isLooking", false);
+            this.anim.SetBool("isAttack", true);
         }
         if(distanceToPlayer > 20f && isChasingPlayer)
         {
             //Debug.Log("kaçýþ");
-            anim.SetBool("isWalking", false);
-            anim.SetBool("isLooking", true);
-            anim.SetBool("isAttack", false);
+            this.anim.SetBool("isWalking", false);
+            this.anim.SetBool("isLooking", true);
+            this.anim.SetBool("isAttack", false);
 
             isChasingPlayer = false;
             spotlight.color = Color.red;
@@ -185,8 +185,8 @@ public class GuardAI : MonoBehaviour
 
     IEnumerator FollowPath(Vector3[] waypoints)
     {
-        anim.SetBool("isWalking", true);
-        anim.SetBool("isLooking", false);
+        this.anim.SetBool("isWalking", true);
+        this.anim.SetBool("isLooking", false);
 
         transform.position = waypoints[0];
 
@@ -210,8 +210,8 @@ public class GuardAI : MonoBehaviour
 
     IEnumerator TurnToFace(Vector3 lookTarget)
     {
-        anim.SetBool("isWalking", false);
-        anim.SetBool("isLooking", true);
+        this.anim.SetBool("isWalking", false);
+        this.anim.SetBool("isLooking", true);
 
         Vector3 dirToLookTarget = (lookTarget - transform.position).normalized;
         float targetAngle = 90 - Mathf.Atan2(dirToLookTarget.z, dirToLookTarget.x) * Mathf.Rad2Deg;

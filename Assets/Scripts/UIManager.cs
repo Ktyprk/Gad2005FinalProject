@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject NeedGearUI, FixingUI;
 
-    public TextMeshProUGUI needGearCount;
+    public TextMeshProUGUI needGearCount, canFixText;
 
     public PlayerManager _playerManager;
 
@@ -34,6 +34,11 @@ public class UIManager : MonoBehaviour
         }else
         {
             NeedGearUI.SetActive(false);
+        }
+
+        if(_playerManager.gearCount >= 20)
+        {
+            canFixText.gameObject.SetActive(true);  
         }
     }
 
