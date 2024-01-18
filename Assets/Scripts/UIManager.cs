@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject NeedGearUI, FixingUI;
 
-    public TextMeshProUGUI needGearCount, canFixText;
+    public TextMeshProUGUI needGearCount, canFixText, WranchCount;
 
     public PlayerManager _playerManager;
 
@@ -22,10 +22,12 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        int Wranch = _playerManager.wranchCount;
         int gearCount = _playerManager.gearCount;
 
         int remainingGearCount = 20 - gearCount;
 
+        WranchCount.text = Wranch.ToString();
         needGearCount.text = remainingGearCount.ToString();
 
         if(NeedGear && !canFixing)

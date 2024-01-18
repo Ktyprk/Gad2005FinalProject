@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Climbing;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int gearCount = 0;
-
-    public UIManager UIManager;
-
+    [Header("Variables")]
+    public int gearCount = 0, wranchCount;
     public float maxHealth = 100f;
     public float currentHealth;
-
-    public Image healthSlider;
-
     public float damageAmount = 10f;
+    
+    [Header("Objects")]
+    public UIManager UIManager;
+    public Image healthSlider;
+    public GameObject PlayerCamera, PlayerMesh;
+    public InputCharacterController playerCont;
+
+    public bool hiding = true, inhide;
 
     void Start()
     {
         currentHealth = maxHealth;
-
-        // Saðlýk çubuðunu baþlangýçta güncelle
         UpdateHealthUI();
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -32,13 +35,10 @@ public class PlayerManager : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        // Hasar alýndýðýnda saðlýðý azalt
         currentHealth -= damageAmount;
 
-        // Saðlýk çubuðunu güncelle
         UpdateHealthUI();
 
-        // Karakter öldüðünde isteðe baðlý olarak baþka iþlemler ekleyebilirsiniz
         if (currentHealth <= 0)
         {
             Die();
@@ -47,36 +47,81 @@ public class PlayerManager : MonoBehaviour
 
     void Die()
     {
-        
-        //gameObject.SetActive(false);
+        // Buraya ölme iþlemleri eklenebilir.
+        // Örneðin: gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Gear"))
+        if (other.CompareTag("Gear"))
         {
             gearCount++;
             Destroy(other.gameObject);
         }
 
-        
+        if (other.CompareTag("Wranch"))
+        {
+            wranchCount++;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("HidingBox"))
+        {
+            // Eðer gizleme kutusuna giriþ yapýldýðýnda bir þey yapmak istiyorsanýz
+            // buraya ekleyebilirsiniz.
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.CompareTag("Car"))
+        if (other.CompareTag("Car"))
         {
-            if(gearCount < 20) 
+            if (gearCount < 20)
             {
-               UIManager.NeedGear = true;
+                UIManager.NeedGear = true;
             }
-            if(gearCount >= 20)
+            else
             {
                 UIManager.NeedGear = false;
                 UIManager.canFixing = true;
                 UIManager.FixingUI.SetActive(true);
             }
-            
+        }
+
+        if (other.CompareTag("HidingBox"))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                /*HideArea hideArea = other.GetComponent<HideArea>();
+                if (hideArea != null && !hideArea.hideable)
+                {
+                    wranchCount--;
+                    Transform lockTransform = other.transform.GetChild(1);
+                    lockTransform.gameObject.SetActive(false);
+                    hideArea.hideable = true;
+                }*/
+
+                hiding = !hiding;
+
+                Transform hidingBoxTransform = other.transform;
+                Transform boxCameraTransform = hidingBoxTransform.GetChild(0);
+
+                if (!hiding)
+                {
+                    playerCont.enabled = false;
+                    PlayerCamera.SetActive(false);
+                    PlayerMesh.SetActive(false);
+                    boxCameraTransform.gameObject.SetActive(true);
+                }
+
+                if (hiding)
+                {
+                    playerCont.enabled = true;
+                    PlayerCamera.SetActive(true);
+                    PlayerMesh.SetActive(true);
+                    boxCameraTransform.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -84,8 +129,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (other.CompareTag("Car"))
         {
-            
-                UIManager.NeedGear = false;
+            UIManager.NeedGear = false;
             UIManager.FixingUI.SetActive(false);
         }
 
