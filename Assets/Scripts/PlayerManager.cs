@@ -12,13 +12,17 @@ public class PlayerManager : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
     public float damageAmount = 10f;
+    public float normalSpeed = 5.0f; 
+    public float boostedSpeed = 10.0f; 
+    private bool isSpeedBoosted = false;
     
     [Header("Objects")]
     public UIManager UIManager;
     public Image healthSlider;
     public GameObject PlayerCamera, PlayerMesh;
     public InputCharacterController playerCont;
-
+    public MovementCharacterController MCC;
+    public EnemyAI EnemyAI;
     public bool hiding = true, inhide;
 
     void Start()
@@ -44,6 +48,15 @@ public class PlayerManager : MonoBehaviour
             Die();
         }
     }
+    
+    public void AddHealth(float damageAmount)
+    {
+        currentHealth += damageAmount;
+        
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        UpdateHealthUI();
+    }
 
     void Die()
     {
@@ -65,10 +78,32 @@ public class PlayerManager : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (other.CompareTag("HidingBox"))
+        if (other.CompareTag("PowerUp"))
         {
-            // Eðer gizleme kutusuna giriþ yapýldýðýnda bir þey yapmak istiyorsanýz
-            // buraya ekleyebilirsiniz.
+            // Apply speed boost when colliding with the power-up
+            StartCoroutine(ApplySpeedBoost());
+            Destroy(other.gameObject); // PowerUp nesnesini yok et
+        }
+        
+        if (other.CompareTag("Hearth"))
+        {
+            AddHealth(10f);
+            Destroy(other.gameObject); // PowerUp nesnesini yok et
+        }
+    }
+    
+    private IEnumerator ApplySpeedBoost()
+    {
+        if (!isSpeedBoosted)
+        {
+            MCC.RunSpeed = 10; 
+            isSpeedBoosted = true;
+
+            // Hýz artýþý süresi
+            yield return new WaitForSeconds(10.0f);
+
+            MCC.RunSpeed = 8; 
+            isSpeedBoosted = false;
         }
     }
 
@@ -101,6 +136,7 @@ public class PlayerManager : MonoBehaviour
                     hideArea.hideable = true;
                 }*/
 
+                EnemyAI.playerHidden = !EnemyAI.playerHidden;
                 hiding = !hiding;
 
                 Transform hidingBoxTransform = other.transform;

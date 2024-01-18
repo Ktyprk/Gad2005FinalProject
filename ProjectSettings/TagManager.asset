@@ -9,6 +9,13 @@ TagManager:
   - Damage
   - Wranch
   - HidingBox
+  - Pole
+  - Reach
+  - Vault
+  - Slide
+  - Deep Jump
+  - PowerUp
+  - Hearth
   layers:
   - Default
   - TransparentFX

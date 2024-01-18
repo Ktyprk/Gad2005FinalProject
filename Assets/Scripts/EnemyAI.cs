@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     public float retreatDistance = 10f;
 
     private NavMeshAgent navMeshAgent;
-    private bool playerHidden = false;
+    public bool playerHidden = false;
     private Animator animator;
 
     void Start()
@@ -25,15 +25,15 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             playerHidden = !playerHidden;
-        }
+        }*/
         if (!playerHidden)
         {
             FollowPlayer();
         }
-        else
+        else if (playerHidden)
         {
             Retreat();
         }
