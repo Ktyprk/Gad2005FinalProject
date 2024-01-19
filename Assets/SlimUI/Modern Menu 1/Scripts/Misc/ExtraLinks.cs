@@ -3,19 +3,19 @@
 namespace SlimUI.ModernMenu{
     public class ExtraLinks : MonoBehaviour{
         public void CCP(){
-            Application.OpenURL("http://u3d.as/1JZG");
+            Application.OpenURL("https://github.com/Ktyprk");
         }
 
         public void SciFi(){
-            Application.OpenURL("http://u3d.as/1AaR");
+            Application.OpenURL("https://github.com/nft-gorkem");
         }
 
         public void Clean1(){
-            Application.OpenURL("http://u3d.as/1hTi");
+            Application.OpenURL("https://github.com/MehmetTulpar");
         }
 
         public void Essence(){
-            Application.OpenURL("http://u3d.as/1t11");
+            Application.OpenURL("https://github.com/egetahayamaner");
         }
     }
 }
