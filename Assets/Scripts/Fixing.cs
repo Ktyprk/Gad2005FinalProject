@@ -11,12 +11,12 @@ public class Fixing : MonoBehaviour
     public UIManager UIManager;
     public PlayerManager playerManager;
     public GameObject car;
-
+    
     public float fillSpeed = 0.5f;
     public float fillAmount = 0f;
 
     private bool isFilling = false;
-
+   
     void Update()
     {
         if (isFilling)
@@ -82,6 +82,8 @@ public class Fixing : MonoBehaviour
         car.SetActive(true);
 
     }
+
+    
 
     private bool isPlayerInside = false;
 

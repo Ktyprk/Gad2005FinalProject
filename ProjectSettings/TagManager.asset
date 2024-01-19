@@ -16,6 +16,7 @@ TagManager:
   - Deep Jump
   - PowerUp
   - Hearth
+  - LevelUp
   layers:
   - Default
   - TransparentFX

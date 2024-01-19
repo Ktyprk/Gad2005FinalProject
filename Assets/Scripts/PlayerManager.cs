@@ -12,19 +12,18 @@ public class PlayerManager : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
     public float damageAmount = 10f;
-    public float normalSpeed = 5.0f; 
-    public float boostedSpeed = 10.0f; 
+     
     private bool isSpeedBoosted = false;
     
     [Header("Objects")]
     public UIManager UIManager;
     public Image healthSlider;
-    public GameObject PlayerCamera, PlayerMesh;
+    public GameObject PlayerCamera, PlayerMesh, diedCanvas;
     public InputCharacterController playerCont;
     public MovementCharacterController MCC;
     public EnemyAI EnemyAI;
     public bool hiding = true, inhide;
-
+    public LevelManager lm;
     void Start()
     {
         currentHealth = maxHealth;
@@ -60,8 +59,10 @@ public class PlayerManager : MonoBehaviour
 
     void Die()
     {
-        // Buraya ölme iþlemleri eklenebilir.
-        // Örneðin: gameObject.SetActive(false);
+        gameObject.SetActive(false);
+        diedCanvas.SetActive(true);
+        
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -90,6 +91,18 @@ public class PlayerManager : MonoBehaviour
             AddHealth(10f);
             Destroy(other.gameObject); // PowerUp nesnesini yok et
         }
+        
+        if (other.CompareTag("LevelUp"))
+        {
+            StartCoroutine(NextLevel());
+        }
+    }
+
+
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSeconds(2.0f);
+        lm.LoadNextLevel();
     }
     
     private IEnumerator ApplySpeedBoost()
@@ -98,10 +111,9 @@ public class PlayerManager : MonoBehaviour
         {
             MCC.RunSpeed = 10; 
             isSpeedBoosted = true;
-
-            // Hýz artýþý süresi
+            
             yield return new WaitForSeconds(10.0f);
-
+           
             MCC.RunSpeed = 8; 
             isSpeedBoosted = false;
         }

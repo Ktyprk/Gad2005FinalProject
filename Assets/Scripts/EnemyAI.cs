@@ -13,8 +13,9 @@ public class EnemyAI : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     public bool playerHidden = false;
-    private Animator animator;
+    public Animator animator;
 
+    public BoxCollider boxCollider;
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -53,6 +54,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            animator.SetTrigger("Attack");
             navMeshAgent.speed = 0f;
         }
     }
@@ -77,5 +79,15 @@ public class EnemyAI : MonoBehaviour
     public void SetPlayerHidden(bool hidden)
     {
         playerHidden = hidden;
+    }
+    
+    void EnableAttack()
+    {
+        boxCollider.enabled = true;
+    }
+
+    void DisableAttack()
+    {
+        boxCollider.enabled = false;
     }
 }
