@@ -17,6 +17,7 @@ TagManager:
   - PowerUp
   - Hearth
   - LevelUp
+  - FinishCar
   layers:
   - Default
   - TransparentFX

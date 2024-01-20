@@ -18,12 +18,13 @@ public class PlayerManager : MonoBehaviour
     [Header("Objects")]
     public UIManager UIManager;
     public Image healthSlider;
-    public GameObject PlayerCamera, PlayerMesh, diedCanvas;
+    public GameObject PlayerCamera, PlayerMesh, diedCanvas, finalcanvas;
     public InputCharacterController playerCont;
     public MovementCharacterController MCC;
     public EnemyAI EnemyAI;
     public bool hiding = true, inhide;
     public LevelManager lm;
+    public FinalCarScript car;
     void Start()
     {
         currentHealth = maxHealth;
@@ -95,6 +96,14 @@ public class PlayerManager : MonoBehaviour
         if (other.CompareTag("LevelUp"))
         {
             StartCoroutine(NextLevel());
+        }
+        
+        if (other.CompareTag("FinishCar"))
+        {
+            if (car.finish == true)
+            {
+                finalcanvas.SetActive(true);
+            }
         }
     }
 
